@@ -85,7 +85,6 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath, options);
 
         Typeface newFont = getFontFromRes(R.raw.eventtusicons);
-        emojiFont = getFontFromRes(R.raw.emojioneandroid);
 
         BrushDrawingView brushDrawingView = (BrushDrawingView) findViewById(R.id.drawing_view);
         drawingViewColorPickerRecyclerView = (RecyclerView) findViewById(R.id.drawing_view_color_picker_recycler_view);
@@ -95,7 +94,6 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         TextView addPencil = (TextView) findViewById(R.id.add_pencil_tv);
         RelativeLayout deleteRelativeLayout = (RelativeLayout) findViewById(R.id.delete_rl);
         TextView deleteTextView = (TextView) findViewById(R.id.delete_tv);
-        TextView addImageEmojiTextView = (TextView) findViewById(R.id.add_image_emoji_tv);
         TextView saveTextView = (TextView) findViewById(R.id.save_tv);
         TextView saveTextTextView = (TextView) findViewById(R.id.save_text_tv);
         undoTextView = (TextView) findViewById(R.id.undo_tv);
@@ -120,7 +118,6 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         closeTextView.setTypeface(newFont);
         addTextView.setTypeface(newFont);
         addPencil.setTypeface(newFont);
-        addImageEmojiTextView.setTypeface(newFont);
         saveTextView.setTypeface(newFont);
         undoTextView.setTypeface(newFont);
         clearAllTextView.setTypeface(newFont);
@@ -139,9 +136,6 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         }
 
         fragmentsList.add(imageFragment);
-
-        EmojiFragment emojiFragment = new EmojiFragment();
-        fragmentsList.add(emojiFragment);
 
         PreviewSlidePagerAdapter adapter = new PreviewSlidePagerAdapter(getSupportFragmentManager(), fragmentsList);
         pager.setAdapter(adapter);
@@ -167,8 +161,6 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
             public void onPageSelected(int position) {
                 if (position == 0)
                     mLayout.setScrollableView(((ImageFragment) fragmentsList.get(position)).imageRecyclerView);
-                else if (position == 1)
-                    mLayout.setScrollableView(((EmojiFragment) fragmentsList.get(position)).emojiRecyclerView);
             }
 
             @Override
@@ -178,7 +170,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         });
 
         closeTextView.setOnClickListener(this);
-        addImageEmojiTextView.setOnClickListener(this);
+
         addTextView.setOnClickListener(this);
         addPencil.setOnClickListener(this);
         saveTextView.setOnClickListener(this);
@@ -246,7 +238,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 
             }
             if (hiddenControls.get(i).toString().equalsIgnoreCase("sticker")) {
-                addImageEmojiTextView.setVisibility(View.INVISIBLE);
+
             }
         }
     }
@@ -616,7 +608,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
     }
 

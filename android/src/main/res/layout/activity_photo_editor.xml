@@ -284,12 +284,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.ahmedadeltito.photoeditor.widget.RealtimeBlurView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:realtimeBlurRadius="10dp"
-                app:realtimeOverlayColor="#33ffffff" />
-
             <com.viewpagerindicator.CirclePageIndicator
                 android:id="@+id/image_emoji_indicator"
                 android:layout_width="wrap_content"
