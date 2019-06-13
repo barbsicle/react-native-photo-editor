@@ -497,8 +497,6 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         if (v.getId() == R.id.close_tv) {
             onBackPressed();
-        } else if (v.getId() == R.id.add_image_emoji_tv) {
-            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         } else if (v.getId() == R.id.add_text_tv) {
             openAddTextPopupWindow("", -1);
         } else if (v.getId() == R.id.add_pencil_tv) {
