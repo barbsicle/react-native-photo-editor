@@ -265,7 +265,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void addText(String text, int colorCodeTextView) {
-        photoEditorSDK.addText(text, colorCodeTextView);
+        photoEditorSDK.addText(text, colorCodeTextView == -1 ? getResources().getColor(R.color.almost_white): colorCodeTextView);
     }
 
     private void clearAllViews() {
