@@ -1,3 +1,9 @@
+apply plugin: 'com.android.library'
+
+def DEFAULT_COMPILE_SDK_VERSION   = 28
+def DEFAULT_BUILD_TOOLS_VERSION   = "28.0.3"
+def DEFAULT_TARGET_SDK_VERSION    = 28
+def DEFAULT_MIN_SDK_VERSION       = 16
 
 buildscript {
     repositories {
@@ -12,15 +18,13 @@ buildscript {
     }
 }
 
-apply plugin: 'com.android.library'
-
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion rootProject.ext.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : DEFAULT_COMPILE_SDK_VERSION
+    buildToolsVersion rootProject.ext.hasProperty('buildToolsVersion') ? rootProject.ext.buildToolsVersion : DEFAULT_BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdkVersion rootProject.ext.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : DEFAULT_MIN_SDK_VERSION
+        targetSdkVersion rootProject.ext.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : DEFAULT_TARGET_SDK_VERSION
         versionCode 1
         versionName "1.0"
     }
@@ -44,4 +48,6 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.github.yalantis:ucrop:2.2.2-native'
+    implementation 'com.android.support:exifinterface:27.1.1'
 }
