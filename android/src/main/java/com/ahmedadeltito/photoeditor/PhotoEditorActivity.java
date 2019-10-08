@@ -286,7 +286,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 
             }
             if (hiddenControls.get(i).toString().equalsIgnoreCase("crop")) {
-                addCropTextView.setVisibility(View.INVISIBLE);
+                
             }
         }
     }
