@@ -33,7 +33,7 @@ This library is a React Native bridge around native photo editor libraries. It a
 
 `$ yarn add react-native-photo-editor`
 
-## **RN60 >= RNPE V1 >**
+## **RN61 >= RNPE V1 >**
 
 > RN60 above please use `react-native-photo-editor` V1 and above
 
@@ -51,6 +51,16 @@ This library is a React Native bridge around native photo editor libraries. It a
   use_frameworks!
 
   pod 'iOSPhotoEditor', :git => 'https://github.com/prscX/photo-editor', :branch => 'master'
+
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      if target.name.include?('iOSPhotoEditor')
+        target.build_configurations.each do |config|
+          config.build_settings['SWIFT_VERSION'] = '5'
+        end
+      end
+    end
+  end
 ```
 
   - Add below property to your info.list
@@ -66,7 +76,26 @@ This library is a React Native bridge around native photo editor libraries. It a
 
 - **Android**
 
-- Add below activity in your app activites:
+- Please add below script in your build.gradle
+
+```
+buildscript {
+    repositories {
+        maven { url "https://jitpack.io" }
+        ...
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+        ...
+    }
+}
+```
+
+
+- Add below activity in your app activities:
 
 `
 <activity android:name="com.ahmedadeltito.photoeditor.PhotoEditorActivity" />
@@ -78,7 +107,7 @@ This library is a React Native bridge around native photo editor libraries. It a
 `<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />`
 
 
-## **RN60 < RNPE V1 <**
+## **RN61 < RNPE V1 <**
 
 > RN60 below please use `react-native-photo-editor` V.0.*
 
@@ -156,6 +185,16 @@ android {
 
   * Now build your iOS app through Xcode
 
+
+## ⛄️ Stickers
+
+If you want stickers, please add them to your native project:
+
+* **iOS:** Add stickers to iOS Resources folder
+* **Android:** Add stickers to app `drawable` folder
+
+> Refer Example project for the same.
+
 ## 💻 Usage
 
 ```
@@ -166,6 +205,9 @@ RNPhotoEditor.Edit({
 });
 ```
 
+> * Purpose of this library is to edit photos which are within app sandbox, we recommend to move captured image to app sandbox then using RNFS share image path with library for the edit.
+
+> * Example: If we capture image through cameraRoll then we should first move image to app sandbox using RNFS then share app storage path with the editor.
 
 ## 💡 Props
 
@@ -179,14 +221,6 @@ RNPhotoEditor.Edit({
 | `colors`     | `array: HEX-COLOR` |    `[#000000, #808080, #a9a9a9, #FFFFFF, #0000ff, #00ff00, #ff0000, #ffff00, #ffa500, #800080, #00ffff, #a52a2a, #ff00ff]`     | Specify colors you want to show for draw/text              |
 | `onDone`    | `func` |         | Specify done callback            |
 | `onCancel`        | `func`            |      | Specify cancel callback       |
-
-
-## ⛄️ Stickers
-
-If you want to add custom stickers, please add them to your native project:
-
-* **iOS:** Add stickers to iOS Resources folder
-* **Android:** Add stickers to app `drawable` folder
 
 
 ## ✨ Credits

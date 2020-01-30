@@ -17,9 +17,21 @@ RCTResponseSenderBlock _onCancelEditing = nil;
 - (void)doneEditingWithImage:(UIImage *)image {
     if (_onDoneEditing == nil) return;
     
-    // Save image.
-    [UIImagePNGRepresentation(image) writeToFile:_editImagePath atomically:YES];
-    
+    NSError* error;
+
+    BOOL isPNG = [_editImagePath.pathExtension.lowercaseString isEqualToString:@"png"];
+    NSString* path = _editImagePath;
+
+    if ([path containsString:@"file://"]) {
+        NSURL *url = [NSURL URLWithString:_editImagePath];
+        path = url.path;
+    }
+
+    [isPNG ? UIImagePNGRepresentation(image) : UIImageJPEGRepresentation(image, 0.8) writeToFile:path options:NSDataWritingAtomic error:&error];
+
+    if (error != nil)
+        NSLog(@"write error %@", error); 
+   
     _onDoneEditing(@[]);
 }
 
@@ -68,7 +80,7 @@ RCT_EXPORT_METHOD(Edit:(nonnull NSDictionary *)props onDone:(RCTResponseSenderBl
             [passHiddenControls addObject: [[NSString alloc] initWithString: hiddenControl]];
         }
 
-        // photoEditor.hiddenControls = passHiddenControls;
+        photoEditor.hiddenControls = passHiddenControls;
 
         //Process Colors
         NSArray *colors = [props objectForKey: @"colors"];
@@ -82,6 +94,11 @@ RCT_EXPORT_METHOD(Edit:(nonnull NSDictionary *)props onDone:(RCTResponseSenderBl
 
         // Invoke Editor
         photoEditor.photoEditorDelegate = self;
+	
+	// The default modal presenting is page sheet in ios 13, not full screen
+	if (@available(iOS 13, *)) {
+            [photoEditor setModalPresentationStyle: UIModalPresentationFullScreen];
+        }
 
         id<UIApplicationDelegate> app = [[UIApplication sharedApplication] delegate];
         UINavigationController *rootViewController = ((UINavigationController*) app.window.rootViewController);
